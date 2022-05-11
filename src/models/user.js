@@ -1,7 +1,38 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose; //solo de la parte mongoose quiero el objeto scheema
-import { user } from '../class/userClass';
+const { Schema, Types } = mongoose; //solo de la parte mongoose quiero el objeto scheema
+//import { user } from '../class/userClass';
 
-new Schema({
-    user: { type: user }
+const user = new Schema({
+    name: {
+        type: String,
+    },
+    surname: {
+        type: String,
+    },
+    dni: {
+        type: Number,
+    },
+    dateBirth: {
+        type: Date,
+    },
+    email: {
+        type: String,
+    },
+    password: {
+        type: String,
+    },
+    risk: {
+        type: Boolean,
+    },
+    doubleFactor: {
+        type: String,
+    },
+    vaccinations: [{
+        type: Types.ObjectId,
+        ref: 'vaccine'
+    }]
+    
+
 })
+
+module.exports = mongoose.model('user',user);
