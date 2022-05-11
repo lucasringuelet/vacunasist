@@ -8,7 +8,7 @@ const app = express(); // porque no necesito hacer express.express() para crear 
 app.set('port', process.env.PORT || 3000);
 
 //Midlewares
-app.use(morgan('dev'));
+app.use(morgan('dev')); //muestra info en consola
 app.use(express.json());
 //app.use(mongoose);
 //Routes
