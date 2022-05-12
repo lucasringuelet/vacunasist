@@ -13,7 +13,7 @@ const user = new Schema({
         type: Number,
     },
     dateBirth: {
-        type: Date,
+        type: String,
     },
     email: {
         type: String,
@@ -27,12 +27,15 @@ const user = new Schema({
     doubleFactor: {
         type: String,
     },
+    vaccination: {
+        type: String
+    },
     vaccinations: [{
         type: Types.ObjectId,
         ref: 'vaccine'
     }]
-    
+
 
 })
 
-module.exports = mongoose.model('user',user);
+module.exports = mongoose.model('user', user);

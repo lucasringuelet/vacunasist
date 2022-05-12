@@ -13,7 +13,7 @@ app.use(express.json());
 //app.use(mongoose);
 //Routes
 
-app.use('/users/paciente', require('../src/routes/users.routes'));
+app.use('/users/patient', require('../src/routes/users.routes'));
 
 //Static files
 app.use(express.static(path.join(__dirname, 'public')));
