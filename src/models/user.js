@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const { Schema, Types } = mongoose; //solo de la parte mongoose quiero el objeto scheema
-//import { user } from '../class/userClass';
+const { Schema, Types } = mongoose; //solo de la parte mongoose quiero el objeto scheema y Types
 
 const user = new Schema({
     name: {
