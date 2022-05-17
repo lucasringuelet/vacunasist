@@ -2,17 +2,30 @@ const express = require('express'); // le pido a node el modulo express y lo gua
 const morgan = require('morgan');
 const path = require('path');
 const { mongoose } = require('./database');
+const exphbs = require('express-handlebars');
 const app = express(); // porque no necesito hacer express.express() para crear el objeto app ?
 
 //Settings
 app.set('port', process.env.PORT || 3000);
+app.engine('hbs', exphbs.engine({
+    defaultLayout: 'main',
+    extname: '.hbs'
+}));
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'hbs');
 
 //Midlewares
 app.use(morgan('dev')); //muestra info en consola
 app.use(express.json());
 //app.use(mongoose);
-//Routes
 
+//Routes
+app.get("/", (req, res) => {
+    res.render('home');
+})
+app.get("/register", (req, res) => {
+    res.render('register')
+})
 app.use('/users/patient', require('../src/routes/users.routes'));
 
 //Static files

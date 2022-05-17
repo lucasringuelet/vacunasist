@@ -190,6 +190,7 @@ router.get("/vaccines/:id", async(req, res) => {
     res.json(vaccines);
 });
 
+//turnos del usuario
 router.get("/turn/:id", async(req, res) => {
     const user = await User.find({ _id: req.params.id });
     const turns = await Turn.find({ userId: user[0]._id })
