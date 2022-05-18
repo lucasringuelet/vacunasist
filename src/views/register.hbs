@@ -2,22 +2,22 @@
   
 
   <div class="card-body">
-    <h5 class="card-title">Card title</h5>
+    <h5 class="card-title">Registro</h5>
     <form id="myForm" onsubmit="register1()">
-        <label >Nombre:</label>
-        <input id="name" type="text" name="name">
+        <label for="name">Nombre</label><br>
+        <input id="name" type="text" name="name" required><br>
 
         <label for="Surname">Apellido</label><br>
-        <input id="surname" type="text" name="surname">
+        <input id="surname" type="text" name="surname" required><br>
 
         <label for="Password">Contraseña</label><br>
-        <input id="password" type="password" name="password">
+        <input id="password" type="password" minlength="6" name="password" required><br>
 
         <label for="Email">Email</label><br>
-        <input id="email" type="email" name="email">
+        <input id="email" type="email" name="email" required><br>
 
         <label for="Dni">Dni</label><br>
-        <input id="dni" type="number" name="dni">
+        <input id="dni" type="number" name="dni" required><br>
 
         <label for="risk">Riesgo:</label><br>
         <input type="radio" id="risk" name="risk" value=true>
@@ -26,7 +26,7 @@
         <label for="no">no</label><br>
 
         <label for="birthday">Birthday:</label>
-        <input type="date" id="dateBirth" name="dateBirth">
+        <input type="date" id="dateBirth" name="dateBirth" required>
 
         <label for="vaccination">Vacunatorio</label><br>
         <input type="radio" id="vaccination" name="vaccination" value="municipalidad">
@@ -37,16 +37,36 @@
         <label for="terminal omnibus">terminal omnibus</label><br>
 
         <h5>Hstorial de Vacunas</h5><br>
-        <label for="risk">Covid:</label><br>
-        <select id="select" onchange="selectCovid()">
-          <option value=true>Si</option>
-          <option value=false selected>No</option>
+
+        <label for="selectCovid">Covid:</label><br>
+        <select id="selectedCovid" onchange="selectCovid()">
+          <option value="true">Si</option>
+          <option value="false" selected>No</option>
         </select>
         <div id="informationCovid" style="display: none;">
-          <label for="amount">Cantidad</label><br>
+          <label for="amount">Cantidad</label>
           <input id="amountCovid" type="number" name="amount">
-        </div>
+          <label for="lastVaccineCovid">Fecha de ultima vacuna:</label>
+          <input type="date" id="lastVaccineCovid" name="lastVaccineCovid">
+        </div><br>
 
+        <label for="selectGripe">Gripe:</label><br>
+        <select id="selectedGripe" onchange="selectGripe()">
+          <option value="true">Si</option>
+          <option value="false" selected>No</option>
+        </select>
+        <div id="informationGripe" style="display: none;">
+          <label for="lastVaccineCovid">Fecha de ultima vacuna:</label>
+          <input type="date" id="lastVaccineGripe" name="lastVaccineGripe">
+        </div><br>
+
+        <label for="selectFiebre">Fiebre:</label><br>
+        <select id="selectedFiebre">
+          <option value="true">Si</option>
+          <option value="false" selected>No</option>
+        </select><br>
+
+        <br>
         <input type="submit" value="Save"class="btn btn-secondary">
     </form>
   </div>

@@ -3,9 +3,29 @@ const router = express.Router();
 const User = require("../models/user");
 const Vaccine = require("../models/vaccine");
 const Turn = require("../models/turn");
-const res = require("express/lib/response");
 
 
+
+
+//login
+router.post("/login", async(req, res) => {
+    const userExist = await User.find({ email: `${req.body.email}` });
+    console.log(userExist);
+    if (userExist.length == 1) {
+        if (userExist[0].password == req.body.password) {
+            if (userExist[0].doubleFactor == req.body.doubleFactor) {
+                res.json({ success: true, data: userExist[0] })
+            } else {
+                res.json({ success: false, error: "user double factor incorrect" });
+            }
+        } else {
+            res.json({ success: false, error: "user password incorrect" });
+        }
+    } else {
+        res.json({ success: false, error: "user not exist" });
+    }
+
+})
 
 
 //register
@@ -31,9 +51,9 @@ router.post("/register", async(req, res) => {
         });
         const newUser = await user.save();
 
+        const data = { "id": newUser._id, "doubleFactor": doubleFactor };
 
-
-        res.json({ success: true, data: doubleFactor });
+        res.json({ success: true, data: data });
     } else {
         res.json({ success: false, error: "user exist" });
     }
