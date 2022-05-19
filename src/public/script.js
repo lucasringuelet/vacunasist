@@ -102,6 +102,7 @@ async function register1() {
                 .then(res => res.json())
             console.log(ok);
         }
+        window.location.href = "http://localhost:3000/login";
     } else {
         window.alert(ok.error);
     }
@@ -126,9 +127,5 @@ async function loginUser() {
             }
         })
         .then(res => res.json())
-    userId = ok.data._id;
-    if (ok.success) {
-        await fetch(`http://localhost:3000/user`) // no funciona 
-    }
-    console.log(userId);
+
 }

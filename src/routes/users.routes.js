@@ -6,15 +6,18 @@ const Turn = require("../models/turn");
 
 
 
-
 //login
 router.post("/login", async(req, res) => {
     const userExist = await User.find({ email: `${req.body.email}` });
+
     console.log(userExist);
     if (userExist.length == 1) {
         if (userExist[0].password == req.body.password) {
             if (userExist[0].doubleFactor == req.body.doubleFactor) {
-                res.json({ success: true, data: userExist[0] })
+                req.session.userId = userExist[0]._id;
+                //sesion    
+                res.redirect('../../user');
+
             } else {
                 res.json({ success: false, error: "user double factor incorrect" });
             }

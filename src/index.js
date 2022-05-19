@@ -4,8 +4,10 @@ const path = require('path');
 const { mongoose } = require('./database');
 const exphbs = require('express-handlebars');
 const app = express(); // porque no necesito hacer express.express() para crear el objeto app ?
+const session = require('express-session');
 
 //Settings
+app.use(session({ secret: 'ssshhhhh', saveUninitialized: true, resave: true }));
 app.set('port', process.env.PORT || 3000);
 app.engine('hbs', exphbs.engine({
     defaultLayout: 'main',
@@ -17,6 +19,7 @@ app.set('view engine', 'hbs');
 //Midlewares
 app.use(morgan('dev')); //muestra info en consola
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 //app.use(mongoose);
 
 //Routes
@@ -30,7 +33,9 @@ app.get("/login", (req, res) => {
     res.render('login')
 })
 app.get("/user", (req, res) => {
-    res.redirect('user');
+    var userId = req.session.userId;
+    console.log(userId);
+    res.render('user', { userId });
 })
 app.use('/users/patient', require('../src/routes/users.routes'));
 
