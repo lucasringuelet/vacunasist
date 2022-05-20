@@ -56,13 +56,14 @@ app.get("/user", auth, (req, res) => {
     var userId = req.session.userId;
     res.render('user', { userId });
 })
+
 app.use('/users/patient', require('../src/routes/users.routes'));
 
-
-
-app.get('/example', (req, res) => {
-    res.json({ data: "hola" });
+app.get('/userTurn', auth, (req, res) => {
+    res.render('userTurn');
 })
+
+
 
 app.get("/logout", auth, (req, res) => {
     req.session.destroy();

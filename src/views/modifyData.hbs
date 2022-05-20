@@ -1,0 +1,21 @@
+<nav class="nav nav-pills nav-fill">
+    <a class="nav-link active" aria-current="page" href="/users/patient/userInformation">Informacion</a>
+    <a class="nav-link" href="/userTurn">Solicitar Turnos</a>
+    <a class="nav-link" href="/modifyData">Modificar Datos</a>
+    <a class="nav-link" href="/logout">Cerrar Sesion</a>
+</nav>
+<div class="card" style="width: 18rem;">
+  
+
+  <div class="card-body">
+    <h5 class="card-title">Modificar Datos</h5>
+    <p class="card-text" >Centro de Vacunacion</p>
+    <p class="card-text" id="p1">Tu centro actual es: {{userCenter}}</p>
+    <select name="select">
+        <option value="municipalidad"selected>municipalidad</option>
+        <option value="cementerio" >cementerio</option>
+        <option value="terminal omnibus">terminal omnibus</option>
+    </select>
+    <a onclick="changeCenter()" id="buttonChange" class="btn btn-secondary">modificar</a>
+  </div>
+</div>

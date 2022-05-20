@@ -1,0 +1,16 @@
+<nav class="nav nav-pills nav-fill">
+    <a class="nav-link active" aria-current="page" href="/users/patient/userInformation">Informacion</a>
+    <a class="nav-link" href="/userTurn">Solicitar Turnos</a>
+    <a class="nav-link" href="/users/patient/modifyData">Modificar Datos</a>
+    <a class="nav-link" href="/logout">Cerrar Sesion</a>
+</nav>
+<div class="card" style="width: 18rem;">
+  <img src="img/Logo_VacunAssist_1.png" class="card-img-top" alt="...">
+
+  <div class="card-body">
+    <h5 class="card-title">Vacuna de Fiebre</h5>
+    <p class="card-text" id="p1">Saca un turno para la Vacuna contra la Fiebre</p>
+    <p class="card-text" id="p2" style="visibility: hidden;">Ya sacaste un turno para la Fiebre, proximamente te confirmaremos la fecha</p>
+    <a onclick="assignFiebre()" id="buttonSend" class="btn btn-secondary">Sacar Turno</a>
+  </div>
+</div>

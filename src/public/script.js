@@ -132,7 +132,6 @@ async function loginUser() {
     var password = document.getElementById("password").value;
     var doubleFactor = document.getElementById("doubleFactor").value;
     var data = { "email": email, "password": password, "doubleFactor": doubleFactor };
-    console.log(data);
     let ok = await fetch(`http://localhost:3000/users/patient/login`, {
             method: 'POST', // or 'PUT'
             body: JSON.stringify(data), // data can be `string` or {object}!
@@ -142,4 +141,37 @@ async function loginUser() {
         })
         .then(res => res.json())
 
+}
+
+
+//-----------script User Registed------------
+async function assignFiebre() {
+    var ok = await fetch('/users/patient/assignTurnFiebre')
+        .then(data => {
+            return data.json();
+        })
+    if (ok.success) {
+        document.getElementById("p1").style.visibility = "hidden";
+        document.getElementById("p2").style.visibility = "visible";
+        document.getElementById("buttonSend").style.visibility = "hidden";
+
+    }
+    window.alert(ok.data);
+}
+async function changeCenter() {
+    var select = document.getElementsByName("select");
+
+    console.log(select[0].value);
+    var data = { "data": select[0].value }
+    let ok = await fetch(`http://localhost:3000/users/patient/changeCenter`, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(data), // data can be `string` or {object}!
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json);
+    var text = document.getElementById("p1");
+    text.innerHTML = `Tu centro actual es ${select[0].value}`
+    window.alert("Center modified successfully");
 }
