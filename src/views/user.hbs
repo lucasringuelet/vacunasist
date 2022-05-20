@@ -1,1 +1,10 @@
-<h1>ID {{userId}}</h1>
+
+{{#if userId}}
+    <h1 id="myId" style="display: none;">{{userId}}</h1>
+    <nav class="nav nav-pills nav-fill">
+        <a class="nav-link active" aria-current="page" href="#">Active</a>
+        <a class="nav-link" href="/users/patient/userInformation">Much longer nav link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="/logout">Cerrar Sesion</a>
+    </nav>
+{{/if}}

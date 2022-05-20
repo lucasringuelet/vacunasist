@@ -6,6 +6,14 @@ const Turn = require("../models/turn");
 
 
 
+// Authentication and Authorization Middleware
+var auth = function(req, res, next) {
+    if (req.session && req.session.userId)
+        return next();
+    else
+        return res.sendStatus(401);
+};
+
 //login
 router.post("/login", async(req, res) => {
     const userExist = await User.find({ email: `${req.body.email}` });
@@ -14,8 +22,10 @@ router.post("/login", async(req, res) => {
     if (userExist.length == 1) {
         if (userExist[0].password == req.body.password) {
             if (userExist[0].doubleFactor == req.body.doubleFactor) {
+
                 req.session.userId = userExist[0]._id;
-                //sesion    
+
+
                 res.redirect('../../user');
 
             } else {
@@ -96,6 +106,7 @@ router.post("/assignTurnCovid/:id", async(req, res) => {
     var age = (year - dateBirthUser.getFullYear());
     //milisegundos de 1 semana
     const week = 604800000;
+    const treeMonths = 7889250000; //(3)
 
 
     var arrayVaccination = await Vaccine.find({ _id: user.vaccinations });
@@ -107,12 +118,35 @@ router.post("/assignTurnCovid/:id", async(req, res) => {
             res.json({ success: false, error: "user smaller than 18" });
         } else {
             if (age > 60 || user.risk) {
-                var date = new Date((today.getTime() + week));
-                var userId = user._id;
-                var state = true;
-                const turn = new Turn({ userId, vaccine, date, state });
-                await turn.save();
-                res.json({ success: true, data: date });
+                if (amountVaccine = 1) {
+                    var lastVaccine = (arrayVaccination.filter(element => element.type === "covid"));
+                    var dateAux = new Date((lastVaccine[0].date.getTime() + treeMonths));
+                    if (dateAux.getTime() < today.getTime()) {
+                        let date = new Date((today.getTime() + week));
+                        var userId = user._id;
+                        var state = true;
+                        const turn = new Turn({ userId, vaccine, date, state });
+                        await turn.save();
+                        res.json({ success: true, data: date });
+                    } else {
+
+                        var userId = user._id;
+                        var state = true;
+                        const turn = new Turn({ userId, vaccine, dateAux, state });
+                        await turn.save();
+                        res.json({ success: true, data: dateAux });
+                    }
+
+
+                } else {
+                    var date = new Date((today.getTime() + week));
+                    var userId = user._id;
+                    var state = true;
+                    const turn = new Turn({ userId, vaccine, date, state });
+                    await turn.save();
+                    res.json({ success: true, data: date });
+                }
+
             } else {
                 var state = false;
                 var userId = req.params.id;
@@ -204,6 +238,28 @@ router.post("/assignTurnFiebre/:id", async(req, res) => {
 
 
 
+})
+
+router.get('/userInformation', auth, async(req, res) => {
+    const user = await User.find({ _id: req.session.userId });
+    const vaccines = await Vaccine.find({ _id: user[0].vaccinations })
+    const turns = await Turn.find({ userId: user[0]._id })
+    const infoVaccines = vaccines.map(item => {
+        const container = {};
+        container["type"] = item.type;
+        container["date"] = item.date;
+        return container
+    })
+    const infoTurns = turns.map(item => {
+        const container = {};
+        container["vaccine"] = item.vaccine;
+        container["date"] = item.date;
+        return container
+    })
+
+
+    console.log(turns);
+    res.render('userInformation', { infoVaccines, infoTurns });
 })
 
 //vacunas dadas

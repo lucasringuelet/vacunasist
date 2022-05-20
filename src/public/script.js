@@ -1,4 +1,4 @@
-var userId;
+//var userId;
 
 
 function selectCovid() {
@@ -72,6 +72,7 @@ async function register1() {
                     .then(res => res.json())
                 console.log(ok);
             }
+
         }
         //------ info gripe ------
         var selectedGripe = document.getElementById("selectedGripe").value;
@@ -102,6 +103,19 @@ async function register1() {
                 .then(res => res.json())
             console.log(ok);
         }
+        var assignCovid = await fetch(`users/patient/assignTurnCovid/${userId}`, {
+                method: 'POST'
+            })
+            .then(res => res.json);
+
+
+        var assignGripe = await fetch(`users/patient/assignTurnGripe/${userId}`, {
+                method: 'POST'
+            })
+            .then(res => res.json);
+
+
+
         window.location.href = "http://localhost:3000/login";
     } else {
         window.alert(ok.error);

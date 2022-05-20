@@ -1,0 +1,29 @@
+    <nav class="nav nav-pills nav-fill">
+        <a class="nav-link active" aria-current="page" href="#">Active</a>
+        <a class="nav-link" href="/myVaccines" onclick="hola()">Much longer nav link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="/logout">Cerrar Sesion</a>
+    </nav>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Mis vacunas</h5>
+            <p class="card-text">Este es tu historial de vacunas</p>
+            <ul class="people_list">
+            {{#each infoVaccines}}
+
+                <li>Vacuna: {{{this.type}}}</li>
+                <p>Fecha: {{{this.date}}}</p>
+            {{/each}}
+            </ul>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Mis turnos</h5>
+            <p class="card-text">Estos son tus proximos turnos</p>
+            {{#each infoTurns}}
+                <li>Vacuna: {{{this.vaccine}}}</li>
+                <p>Fecha: {{{this.date}}}</p>
+            {{/each}}
+        </div>
+    </div>
