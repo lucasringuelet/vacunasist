@@ -25,7 +25,6 @@ router.post("/login", async(req, res) => {
             if (userExist[0].doubleFactor == req.body.doubleFactor) {
 
                 req.session.userId = userExist[0]._id;
-                console.log(req.session);
 
                 res.redirect('/users/patient/userInformation');
 
@@ -112,14 +111,17 @@ router.post("/assignTurnCovid/:id", async(req, res) => {
 
     var arrayVaccination = await Vaccine.find({ _id: user.vaccinations });
     var amountVaccine = (arrayVaccination.filter(element => element.type === "covid").length);
-    console.log(amountVaccine);
+    console.log(amountVaccine,"hola");
     if (amountVaccine >= 2) {
         res.json({ success: false, error: "user have 2 vaccine of covid" });
+        console.log(amountVaccine,"hola1");
     } else {
         if (age < 18) {
             res.json({ success: false, error: "user smaller than 18" });
+            console.log(amountVaccine,"hola2");
         } else {
-            if (age > 60 || user.risk) {
+            if (age > 60 || user.risk == "false") {
+                console.log(amountVaccine,"hola3");
                 if (amountVaccine == 1) {
                     var lastVaccine = (arrayVaccination.filter(element => element.type === "covid"));
                     var dateAux = new Date((lastVaccine[0].date.getTime() + treeMonths));
@@ -150,10 +152,11 @@ router.post("/assignTurnCovid/:id", async(req, res) => {
                 }
 
             } else {
-                var state = false;
+                let state = false;
                 var userId = req.params.id;
                 const turn = new Turn({ userId, vaccine, state });
-                await turn.save();
+                var ok = await turn.save();
+                console.log(amountVaccine,"hola4");
                 res.json({ success: true, data: "turn pennding to assinament" });
             }
         }
@@ -215,9 +218,10 @@ router.get("/assignTurnFiebre", async(req, res) => {
     const vaccine = "fiebre";
     const userSearch = await User.find({ _id: `${req.session.userId}` })
     const turnSearch = await Turn.find({ userId: `${req.session.userId}` })
+    var amountTurn = (turnSearch.filter(element => element.type === "fiebre").length);
     const turn = turnSearch.length;
     const user = userSearch[0];
-    if (turn == 0) {
+    if (amountTurn == 0) {
         var today = new Date();
         var year = today.getFullYear();
         var dateBirthUser = new Date(user.dateBirth);
@@ -262,7 +266,12 @@ router.get('/userInformation', auth, async(req, res) => {
     const infoTurns = turns.map(item => {
         const container = {};
         container["vaccine"] = item.vaccine;
-        container["date"] = item.date;
+        if(!item.date){
+            container["date"] = "Date pending";
+        }else{
+            container["date"] = item.date;
+        }
+        
         return container
     })
 

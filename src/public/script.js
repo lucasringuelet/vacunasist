@@ -41,7 +41,7 @@ async function register1() {
     }
 
     console.log(name, password, email, surname, dni, dateBirth, risk, vaccination)
-
+    window.alert(`el DNI: ${dni} fue validado satisfactoriamente con el RENAPER`)
     var ok = await fetch("http://localhost:3000/users/patient/register", {
             method: 'POST', // or 'PUT'
             body: JSON.stringify(infoUser), // data can be `string` or {object}!
@@ -55,6 +55,7 @@ async function register1() {
     if (ok.success) {
         //------ info covid -------
         userId = ok.data.id;
+        
         window.alert(`Tu doble factor es: ${ok.data.doubleFactor}`);
         var selectedCovid = document.getElementById("selectedCovid").value;
         if (selectedCovid == "true") {
@@ -119,6 +120,7 @@ async function register1() {
         window.location.href = "http://localhost:3000/login";
     } else {
         window.alert(ok.error);
+        window.location.href = "http://localhost:3000/register";
     }
 
 }

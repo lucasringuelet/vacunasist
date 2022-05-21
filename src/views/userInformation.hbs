@@ -12,7 +12,9 @@
             {{#each infoVaccines}}
 
                 <li>Vacuna: {{{this.type}}}</li>
-                <p>Fecha: {{{this.date}}}</p>
+                {{#if this.date }}
+                    <p>Fecha: {{{this.date}}}</p>
+                {{/if}}
             {{/each}}
             </ul>
         </div>
