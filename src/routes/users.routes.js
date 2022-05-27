@@ -120,25 +120,28 @@ router.post("/assignTurnCovid/:id", async(req, res) => {
             res.json({ success: false, error: "user smaller than 18" });
             console.log(amountVaccine,"hola2");
         } else {
-            if (age > 60 || user.risk == "false") {
+            
+            if (age > 60 || user.risk == true) {
                 console.log(amountVaccine,"hola3");
                 if (amountVaccine == 1) {
                     var lastVaccine = (arrayVaccination.filter(element => element.type === "covid"));
-                    var dateAux = new Date((lastVaccine[0].date.getTime() + treeMonths));
-                    if (dateAux.getTime() < today.getTime()) {
+                    let date = new Date((lastVaccine[0].date.getTime() + treeMonths));
+                    console.log(date);
+                    if (date.getTime() < today.getTime()) {
                         let date = new Date((today.getTime() + week));
+                        var userId = user._id;
+                        var state = true;
+                        console.log(`pasamos por aca y fecha es: ${date}`)
+                        const turn = new Turn({ userId, vaccine, date, state });
+                        await turn.save();
+                        res.json({ success: true, data: date });
+                    } else {
+                        console.log(`fecha es: ${date}`)
                         var userId = user._id;
                         var state = true;
                         const turn = new Turn({ userId, vaccine, date, state });
                         await turn.save();
                         res.json({ success: true, data: date });
-                    } else {
-
-                        var userId = user._id;
-                        var state = true;
-                        const turn = new Turn({ userId, vaccine, dateAux, state });
-                        await turn.save();
-                        res.json({ success: true, data: dateAux });
                     }
 
 
@@ -218,9 +221,10 @@ router.get("/assignTurnFiebre", async(req, res) => {
     const vaccine = "fiebre";
     const userSearch = await User.find({ _id: `${req.session.userId}` })
     const turnSearch = await Turn.find({ userId: `${req.session.userId}` })
-    var amountTurn = (turnSearch.filter(element => element.type === "fiebre").length);
+    var amountTurn = (turnSearch.filter(element => element.vaccine === "fiebre").length);
     const turn = turnSearch.length;
     const user = userSearch[0];
+    console.log(amountTurn);
     if (amountTurn == 0) {
         var today = new Date();
         var year = today.getFullYear();
@@ -230,12 +234,14 @@ router.get("/assignTurnFiebre", async(req, res) => {
 
         var arrayVaccination = await Vaccine.find({ _id: user.vaccinations });
         var amountVaccine = (arrayVaccination.filter(element => element.type === "fiebre").length);
+        console.log(arrayVaccination);
+        console.log(amountVaccine);
         if (amountVaccine > 0) {
             res.json({ success: false, data: "user have 1 vaccine of fiebre" });
         } else {
-            if (age < 60) {
+            if (age > 60) {
 
-                res.json({ success: false, data: "user can't get vaccinated beacuse is minor than 60" });
+                res.json({ success: false, data: "user can't get vaccinated beacuse is older than 60" });
             } else {
                 var state = false;
                 var userId = req.session.userId;

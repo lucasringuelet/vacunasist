@@ -40,8 +40,8 @@ async function register1() {
         "vaccination": vaccination
     }
 
-    console.log(name, password, email, surname, dni, dateBirth, risk, vaccination)
-    window.alert(`el DNI: ${dni} fue validado satisfactoriamente con el RENAPER`)
+    console.log(name, password, email, surname, dni, dateBirth, risk, vaccination);
+    window.alert(`el DNI: ${dni} fue validado satisfactoriamente con el RENAPER`);
     var ok = await fetch("http://localhost:3000/users/patient/register", {
             method: 'POST', // or 'PUT'
             body: JSON.stringify(infoUser), // data can be `string` or {object}!
