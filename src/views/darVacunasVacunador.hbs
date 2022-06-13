@@ -1,0 +1,44 @@
+    <nav class="nav nav-pills nav-fill">
+        <a class="nav-link active" aria-current="page" href="/users/vacunador/homeVacunador">Dar de alta</a>
+        <a class="nav-link" href="/users/vacunador/pacientesVacunador">Pacientes</a>
+        <a class="nav-link" href="/users/vacunador/assignVaccineVacunador">Vacunar</a>
+        <a class="nav-link" href="/logout">Cerrar Sesion</a>
+    </nav>
+
+
+{{#if email }}
+
+    <div class="card" style="width: 18rem;">
+
+        <div class="card-body">
+            <p class="card-text" id="email">{{{email}}}</p>
+            <a class="btn btn-secondary" href="/users/vacunador/assignVaccineVacunador">volver a buscar</a>
+
+        </div>
+        
+    </div>
+    <div class="card" style="width: 18rem;">
+
+        <div class="card-body">
+            {{#if aux }}
+                <p class="card-text">Vacunas que se puede dar el paciente: </p>
+                {{#each aux}}
+                    <p class="card-text">{{{this.type}}}</p>
+                    <button class="btn btn-secondary" onclick="darVacuna(this)" id="{{{this.type}}}">Dar Vacuna</button>   
+                {{/each}}
+            {{else}}
+                <p class="card-text">El paciente no puede darse vacunas</p>
+            {{/if}}
+
+        </div>
+        
+    </div>
+
+
+
+
+
+
+
+    
+{{/if}}

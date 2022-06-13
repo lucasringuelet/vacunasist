@@ -51,6 +51,9 @@ app.get("/register", (req, res) => {
 app.get("/login", (req, res) => {
     res.render('login')
 })
+app.get("/loginVacunador", (req, res) => {
+    res.render('loginVacunador')
+})
 app.get("/user", auth, (req, res) => {
 
     var userId = req.session.userId;
@@ -58,7 +61,7 @@ app.get("/user", auth, (req, res) => {
 })
 
 app.use('/users/patient', require('../src/routes/users.routes'));
-
+app.use('/users/vacunador',require('../src/routes/vacunador.routes'));
 app.get('/userTurn', auth, (req, res) => {
     res.render('userTurn');
 })

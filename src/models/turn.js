@@ -18,7 +18,11 @@ const turn = new Schema({
 
     state: {
         type: Boolean
+    },
+    vaccination: {
+        type: String
     }
+    
 
 })
 module.exports = mongoose.model('turn', turn);

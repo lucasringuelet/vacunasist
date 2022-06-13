@@ -1,0 +1,32 @@
+    <nav class="nav nav-pills nav-fill">
+        <a class="nav-link active" aria-current="page" href="/users/vacunador/homeVacunador">Dar de alta</a>
+        <a class="nav-link" href="/users/vacunador/pacientesVacunador">Pacientes</a>
+        <a class="nav-link" href="/users/vacunador/assignVaccineVacunador">Vacunar</a>
+        <a class="nav-link" href="/logout">Cerrar Sesion</a>
+    </nav>
+
+        <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Buscar pacientes</h5>
+            <p class="card-text">Seleccione la vacuna para iniciar la busqueda</p>
+            
+
+            <label for="selectedVaccine">Vacuna</label><br>
+            <select id="selectedVaccine">
+                <option value="covid">covid</option>
+                <option value="fiebre" selected>fiebre</option>
+                <option value="gripe" selected>gripe</option>
+            </select>
+            <button class="btn btn-secondary" onclick="searchUsers()" >Buscar</button>
+
+            
+        </div>
+    </div>
+    <div class="card" style="width: 18rem;" id="specialCard">
+        <div class="card-body">
+            <ul class="people_list" id="list">
+                
+            </ul>
+            <button class="btn btn-secondary" onclick="sendAsist()" >Enviar</button>
+        </div>
+    </div>

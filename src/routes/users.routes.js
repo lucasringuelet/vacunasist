@@ -41,6 +41,7 @@ router.post("/login", async(req, res) => {
 })
 
 
+
 //register
 router.post("/register", async(req, res) => {
     const userExist = await User.find({ email: `${req.body.email}` }); //veo que el usuario no exista
@@ -48,6 +49,7 @@ router.post("/register", async(req, res) => {
 
         var doubleFactor = Math.floor(Math.random() * (200 - 1)) + 1;
         const { name, surname, dni, dateBirth, risk, password, email, vaccination } = req.body; //completar
+        console.log(risk);
         //const vaccine = new Vaccine({ type, date }); //completar
         //const newVaccine = await vaccine.save();
 
@@ -82,9 +84,9 @@ router.post("/updateVaccination/:id", async(req, res) => {
 
 //asignar vacunas a un paciente
 router.post("/assignVaccine/:id", async(req, res) => {
-    const { type, date } = req.body;
+    const { type, date, vaccination } = req.body;
 
-    const vaccine = new Vaccine({ type, date });
+    const vaccine = new Vaccine({ type, date, vaccination });
     const newVaccine = await vaccine.save();
 
     const userSearch = await User.find({ _id: `${req.params.id}` })
@@ -131,15 +133,17 @@ router.post("/assignTurnCovid/:id", async(req, res) => {
                         let date = new Date((today.getTime() + week));
                         var userId = user._id;
                         var state = true;
+                        var vaccination = user.vaccination;
                         console.log(`pasamos por aca y fecha es: ${date}`)
-                        const turn = new Turn({ userId, vaccine, date, state });
+                        const turn = new Turn({ userId, vaccine, date, state, vaccination});
                         await turn.save();
                         res.json({ success: true, data: date });
                     } else {
                         console.log(`fecha es: ${date}`)
                         var userId = user._id;
                         var state = true;
-                        const turn = new Turn({ userId, vaccine, date, state });
+                        var vaccination = user.vaccination;
+                        const turn = new Turn({ userId, vaccine, date, state, vaccination });
                         await turn.save();
                         res.json({ success: true, data: date });
                     }
@@ -149,7 +153,8 @@ router.post("/assignTurnCovid/:id", async(req, res) => {
                     var date = new Date((today.getTime() + week));
                     var userId = user._id;
                     var state = true;
-                    const turn = new Turn({ userId, vaccine, date, state });
+                    var vaccination = user.vaccination;
+                    const turn = new Turn({ userId, vaccine, date, state, vaccination });
                     await turn.save();
                     res.json({ success: true, data: date });
                 }
@@ -157,7 +162,8 @@ router.post("/assignTurnCovid/:id", async(req, res) => {
             } else {
                 let state = false;
                 var userId = req.params.id;
-                const turn = new Turn({ userId, vaccine, state });
+                var vaccination = user.vaccination;
+                const turn = new Turn({ userId, vaccine, state, vaccination });
                 var ok = await turn.save();
                 console.log(amountVaccine,"hola4");
                 res.json({ success: true, data: "turn pennding to assinament" });
@@ -198,7 +204,8 @@ router.post("/assignTurnGripe/:id", async(req, res) => {
             var date = new Date((today.getTime() + (month * 6)));
             var userId = user._id;
             var state = true;
-            const turn = new Turn({ userId, vaccine, date, state });
+            var vaccination = user.vaccination;
+            const turn = new Turn({ userId, vaccine, date, state, vaccination });
             await turn.save();
             res.json({ success: true, data: date });
         } else {
@@ -206,7 +213,8 @@ router.post("/assignTurnGripe/:id", async(req, res) => {
                 var date = new Date((today.getTime() + (month * 3)));
                 var userId = user._id;
                 var state = true;
-                const turn = new Turn({ userId, vaccine, date, state });
+                var vaccination = user.vaccination;
+                const turn = new Turn({ userId, vaccine, date, state,vaccination });
                 await turn.save();
                 res.json({ success: true, data: date });
             }
@@ -245,7 +253,8 @@ router.get("/assignTurnFiebre", async(req, res) => {
             } else {
                 var state = false;
                 var userId = req.session.userId;
-                const turn = new Turn({ userId, vaccine, state });
+                var vaccination = user.vaccination;
+                const turn = new Turn({ userId, vaccine, state, vaccination });
                 await turn.save();
                 res.json({ success: true, data: "turn pennding to assinament" });
             }
@@ -275,7 +284,13 @@ router.get('/userInformation', auth, async(req, res) => {
         if(!item.date){
             container["date"] = "Date pending";
         }else{
-            container["date"] = item.date;
+            let date = new Date();
+            if(item.date.getTime()<date.getTime()){
+                container["date"] = "Absent";
+            }else{
+                container["date"] = item.date;
+            }
+            
         }
         
         return container

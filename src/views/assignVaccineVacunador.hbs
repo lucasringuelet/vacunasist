@@ -1,0 +1,21 @@
+    <nav class="nav nav-pills nav-fill">
+        <a class="nav-link active" aria-current="page" href="/users/vacunador/homeVacunador">Dar de alta</a>
+        <a class="nav-link" href="/users/vacunador/pacientesVacunador">Pacientes</a>
+        <a class="nav-link" href="/users/vacunador/assignVaccineVacunador">Vacunar</a>
+        <a class="nav-link" href="/logout">Cerrar Sesion</a>
+    </nav>
+
+<div class="card" style="width: 18rem;">
+
+  <div class="card-body">
+    <h5 class="card-title">Iniciar Sesion</h5>
+    <p class="card-text">Inicia sesion en vacunasist</p>
+    <form id="myForm" action="/users/vacunador/assignVaccineVacunador" method="POST" >
+    <label for="Email">Email</label><br>
+    <input id="email" type="email" name="email" required><br>
+    <br>
+    <input type="submit" value="Save"class="btn btn-secondary">
+    </form>
+  </div>
+</div>
+
