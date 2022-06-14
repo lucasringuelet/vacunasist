@@ -322,6 +322,7 @@ async function searchUsers() {
 
 async function sendAsist(){
     var list = document.getElementById("list");
+    console.log(list.children.length);
     if(list.children.length!=0){
         for (var i = 0; i < (list.children.length); i++){
             let select = document.getElementById(`select${i}`);
@@ -329,7 +330,9 @@ async function sendAsist(){
                 let name = document.getElementById(`name${i}`).innerHTML;
                 console.log(name);
                 let type = document.getElementById("selectedVaccine").value;
-                let asist = document.getElementById(`select${i}`).innerHTML;
+                console.log(type)
+                let asist = document.getElementById(`select${i}`).value;
+                console.log(asist)
                 if(asist =="true"){
                     asist = true;
                 }else{
@@ -348,10 +351,12 @@ async function sendAsist(){
                 
             
 
-            window.alert("turnos actualizados correctamente")
-            await searchUsers()
+            
+            
             
         }
+        window.alert("turnos actualizados correctamente")
+        await searchUsers()
     }
 }
 

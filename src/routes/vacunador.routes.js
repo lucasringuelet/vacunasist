@@ -117,7 +117,7 @@ router.post("/searchUsers",auth, async(req,res) =>{
 router.post("/updateTurn",auth,async(req,res)=>{
     const { type, email, asist} = req.body;
     console.log(req.body);
-    if(asist == "true"){
+    if(asist == true){
         var date = new Date("2022-06-14T03:00:00.000+00:00");//modificar para la DEMO
 
         const vaccine = new Vaccine({ type, date });

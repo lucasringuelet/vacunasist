@@ -28,13 +28,13 @@
         <label for="birthday">Birthday:</label>
         <input type="date" id="dateBirth" name="dateBirth" required>
 
-        <label for="vaccination">Vacunatorio</label><br>
-        <input type="radio" id="vaccination" name="vaccination" value="municipalidad">
-        <label for="municipalidad">municipalidad</label><br>
-        <input type="radio" id="vaccination" name="vaccination" value="cementerio">
-        <label for="cementerio">cementerio</label><br>
-        <input type="radio" id="vaccination" name="vaccination" value="terminal omnibus">
-        <label for="terminal omnibus">terminal omnibus</label><br>
+
+        <label for="vaccination">Vacunatorio:</label><br>
+        <select id="vaccination">
+          <option value="municipalidad">municipalidad</option>
+          <option value="cementerio" selected>cementerio</option>
+          <option value="terminal omnibus" >terminal omnibus</option>
+        </select><br>
 
         <h5>Hstorial de Vacunas</h5><br>
 
