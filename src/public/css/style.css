@@ -1,6 +1,6 @@
 body {
     background-color: rgb(24, 23, 23);
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,31 +13,43 @@ body {
     box-shadow: 10px 10px #a2cb83;
 }
 
-#specialCard{
+#specialCard {
     margin-top: 0px;
 }
 
-.nav{
+.nav {
     position: relative;
     top: 40px;
-    --bs-nav-link-color:#a2cb83;
-    --bs-nav-link-hover-color:#a2cb83;
+    --bs-nav-link-color: #a2cb83;
+    --bs-nav-link-hover-color: #a2cb83;
     border-bottom: 2px solid wheat;
 }
 
-.nav-pills{
-    --bs-nav-pills-link-active-bg:#a2cb83;
+.nav-pills {
+    --bs-nav-pills-link-active-bg: #a2cb83;
 }
 
-.nav-link:hover{
+.nav-link:hover {
 
     color: wheat;
 }
 
-.nav-pills .nav-link.active{
+.nav-pills .nav-link.active {
     color: #a2cb83;
     background: none;
 }
-.nav-pills .nav-link.active:hover{
+
+.nav-pills .nav-link.active:hover {
     color: wheat;
+}
+
+.nav-aux {
+    position: initial;
+    top: auto;
+    margin-bottom: 2rem;
+}
+
+.scrollable {
+    overflow: scroll;
+    height: 60vh;
 }

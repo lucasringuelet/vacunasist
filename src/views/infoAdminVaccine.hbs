@@ -1,0 +1,103 @@
+<nav class="nav nav-pills nav-fill nav-aux">
+    <a class="nav-link active" aria-current="page" href="/users/admin/homeAdmin">Asignar Turnos</a>
+    <a class="nav-link" href="/users/admin/infoAdminVaccine">Informacion por Vacunas</a>
+    <a class="nav-link" href="/users/admin/infoPatient">Informacion Pacientes</a>
+    <a class="nav-link" href="/users/admin/modifyDataCenterAdmin">Modificar datos centros</a>
+    <a class="nav-link" href="/logout">Cerrar Sesion</a>
+</nav>
+
+
+{{#if info }}
+
+<div class="card" style="width: 18rem;">
+
+    <div class="card-body">
+        <div class="scrollable">
+            <table id="tabla" style="height: 50vh;">
+                {{#each info}}
+                <tbody>
+                    <tr>
+                        <td class="card-text">{{{this}}}</td>
+
+                    </tr>
+                </tbody>
+                {{/each}}
+
+            </table>
+        </div>
+        <a class="nav-link" href="/users/admin/infoAdminVaccine">Volver a Buscar</a>
+    </div>
+</div>
+
+{{else}}
+{{#if info2}}
+<div class="card" style="width: 18rem;">
+
+    <div class="card-body">
+        <h5 class="card-text">Email:</h5>
+        <p class="card-text">{{{info2.email}}}</p>
+        <h5 class="card-text">Fecha de Nacimiento:</h5>
+        <p class="card-text">{{{info2.dateBirth}}}</p>
+        <h5 class="card-text">Riesgo:</h5>
+        <p class="card-text">{{{info2.risk}}}</p>
+        <h5 class="card-text">Vacunatorio:</h5>
+        <p class="card-text">{{{info2.vaccination}}}</p>
+        <a class="btn btn-secondary" href="/users/admin/infoAdminVaccine">volver a buscar</a>
+
+    </div>
+
+</div>
+{{else}}
+{{#if noInfo}}
+<div class="card" style="width: 18rem;">
+
+    <div class="card-body">
+        <p class="card-text">{{{noInfo}}}</p>
+        <a class="btn btn-secondary" href="/users/admin/infoAdminVaccine">volver a buscar</a>
+
+    </div>
+
+</div>
+{{else}}
+<div class="card" style="width: 18rem;">
+
+    <div class="card-body">
+        <h5 class="card-title">Buscar Pacientes por fecha</h5>
+        <p class="card-text">Ingresar fecha y vacuna</p>
+        <form id="myForm" action="/users/admin/searchPatientForDate">
+            <label for="date">Fecha:</label><br>
+            <input id="date" type="date" name="date" required><br>
+            <br>
+            <label>Vacuna:</label><br>
+            <select id="vacuna" name="vacuna">
+                <option value="covid">Covid</option>
+                <option value="fiebre">Fiebre</option>
+                <option value="gripe">Gripe</option>
+            </select>
+            <input type="submit" value="Save" class="btn btn-secondary">
+        </form>
+    </div>
+</div>
+
+<div class="card" style="width: 18rem;">
+
+    <div class="card-body">
+        <h5 class="card-title">Buscar Paciente por Email</h5>
+        <p class="card-text">Ingresar email del paciente a buscar</p>
+        <form id="myForm" action="/users/admin/searchPatientForEmail">
+            <label for="Email">Email</label><br>
+            <input id="email" type="email" name="email" required><br>
+            <br>
+            <label>Vacuna:</label><br>
+            <select id="vacuna" name="vacuna">
+                <option value="covid">Covid</option>
+                <option value="fiebre">Fiebre</option>
+                <option value="gripe">Gripe</option>
+            </select>
+            <input type="submit" value="Save" class="btn btn-secondary">
+        </form>
+    </div>
+</div>
+{{/if}}
+{{/if}}
+{{/if}}

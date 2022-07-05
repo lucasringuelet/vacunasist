@@ -43,19 +43,19 @@ async function register1() {
     console.log(name, password, email, surname, dni, dateBirth, risk, vaccination);
     window.alert(`el DNI: ${dni} fue validado satisfactoriamente con el RENAPER`);
     var ok = await fetch("http://localhost:3000/users/patient/register", {
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify(infoUser), // data can be `string` or {object}!
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify(infoUser), // data can be `string` or {object}!
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
         .then(res => res.json())
 
     console.log(ok);
     if (ok.success) {
         //------ info covid -------
         userId = ok.data.id;
-        
+
         window.alert(`Tu doble factor es: ${ok.data.doubleFactor}`);
         var selectedCovid = document.getElementById("selectedCovid").value;
         if (selectedCovid == "true") {
@@ -64,12 +64,12 @@ async function register1() {
             var infoCovid = { "type": "covid", "date": lastVaccineCovid, "vaccination": vaccination };
             for (var i = 0; i < amountVaccineCovid; i++) {
                 let ok = await fetch(`http://localhost:3000/users/patient/assignVaccine/${userId}`, {
-                        method: 'POST', // or 'PUT'
-                        body: JSON.stringify(infoCovid), // data can be `string` or {object}!
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
+                    method: 'POST', // or 'PUT'
+                    body: JSON.stringify(infoCovid), // data can be `string` or {object}!
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
                     .then(res => res.json())
                 console.log(ok);
             }
@@ -81,12 +81,12 @@ async function register1() {
             var lastVaccineGripe = document.getElementById("lastVaccineGripe").value;
             var infoGripe = { "type": "gripe", "date": lastVaccineGripe, "vaccination": vaccination };
             let ok = await fetch(`http://localhost:3000/users/patient/assignVaccine/${userId}`, {
-                    method: 'POST', // or 'PUT'
-                    body: JSON.stringify(infoGripe), // data can be `string` or {object}!
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(infoGripe), // data can be `string` or {object}!
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
                 .then(res => res.json())
             console.log(ok);
         }
@@ -95,24 +95,24 @@ async function register1() {
         if (selectedFiebre == "true") {
             vaccineFiebre = { "type": "fiebre" };
             let ok = await fetch(`http://localhost:3000/users/patient/assignVaccine/${userId}`, {
-                    method: 'POST', // or 'PUT'
-                    body: JSON.stringify(vaccineFiebre), // data can be `string` or {object}!
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(vaccineFiebre), // data can be `string` or {object}!
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
                 .then(res => res.json())
             console.log(ok);
         }
         var assignCovid = await fetch(`users/patient/assignTurnCovid/${userId}`, {
-                method: 'POST'
-            })
+            method: 'POST'
+        })
             .then(res => res.json);
 
 
         var assignGripe = await fetch(`users/patient/assignTurnGripe/${userId}`, {
-                method: 'POST'
-            })
+            method: 'POST'
+        })
             .then(res => res.json);
 
 
@@ -150,33 +150,33 @@ async function register2() {
     console.log(name, password, email, surname, dni, dateBirth, risk, vaccination);
     window.alert(`el DNI: ${dni} fue validado satisfactoriamente con el RENAPER`);
     var ok = await fetch("http://localhost:3000/users/patient/register", {
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify(infoUser), // data can be `string` or {object}!
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify(infoUser), // data can be `string` or {object}!
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
         .then(res => res.json())
 
     console.log(ok);
     if (ok.success) {
         //------ info covid -------
-         userId = ok.data.id;
-        
+        userId = ok.data.id;
+
         window.alert(`Tu doble factor es: ${ok.data.doubleFactor}`);
         var selectedCovid = document.getElementById("selectedCovid").value;
         if (selectedCovid == "true") {
             var amountVaccineCovid = document.getElementById("amountCovid").value;
             var lastVaccineCovid = document.getElementById("lastVaccineCovid").value;
-            var infoCovid = { "type": "covid", "date": lastVaccineCovid , "vaccination": vaccination};
+            var infoCovid = { "type": "covid", "date": lastVaccineCovid, "vaccination": vaccination };
             for (var i = 0; i < amountVaccineCovid; i++) {
                 let ok = await fetch(`http://localhost:3000/users/patient/assignVaccine/${userId}`, {
-                        method: 'POST', // or 'PUT'
-                        body: JSON.stringify(infoCovid), // data can be `string` or {object}!
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
+                    method: 'POST', // or 'PUT'
+                    body: JSON.stringify(infoCovid), // data can be `string` or {object}!
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
                     .then(res => res.json())
                 console.log(ok);
             }
@@ -188,12 +188,12 @@ async function register2() {
             var lastVaccineGripe = document.getElementById("lastVaccineGripe").value;
             var infoGripe = { "type": "gripe", "date": lastVaccineGripe, "vaccination": vaccination };
             let ok = await fetch(`http://localhost:3000/users/patient/assignVaccine/${userId}`, {
-                    method: 'POST', // or 'PUT'
-                    body: JSON.stringify(infoGripe), // data can be `string` or {object}!
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(infoGripe), // data can be `string` or {object}!
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
                 .then(res => res.json())
             console.log(ok);
         }
@@ -202,12 +202,12 @@ async function register2() {
         if (selectedFiebre == "true") {
             vaccineFiebre = { "type": "fiebre" };
             let ok = await fetch(`http://localhost:3000/users/patient/assignVaccine/${userId}`, {
-                    method: 'POST', // or 'PUT'
-                    body: JSON.stringify(vaccineFiebre), // data can be `string` or {object}!
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(vaccineFiebre), // data can be `string` or {object}!
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
                 .then(res => res.json())
             console.log(ok);
         }
@@ -231,12 +231,12 @@ async function loginUser() {
     var doubleFactor = document.getElementById("doubleFactor").value;
     var data = { "email": email, "password": password, "doubleFactor": doubleFactor };
     let ok = await fetch(`http://localhost:3000/users/patient/login`, {
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify(data), // data can be `string` or {object}!
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify(data), // data can be `string` or {object}!
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
         .then(res => res.json())
 
 }
@@ -262,12 +262,12 @@ async function changeCenter() {
     console.log(select[0].value);
     var data = { "data": select[0].value }
     let ok = await fetch(`http://localhost:3000/users/patient/changeCenter`, {
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify(data), // data can be `string` or {object}!
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify(data), // data can be `string` or {object}!
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
         .then(res => res.json);
     var text = document.getElementById("p1");
     text.innerHTML = `Tu centro actual es ${select[0].value}`
@@ -276,36 +276,36 @@ async function changeCenter() {
 
 async function searchUsers() {
     var vaccine = document.getElementById("selectedVaccine").value;
-    var data = {"data":vaccine}
+    var data = { "data": vaccine }
     let ok = await fetch(`http://localhost:3000/users/vacunador/searchUsers`, {
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify(data), // data can be `string` or {object}!
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify(data), // data can be `string` or {object}!
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
         .then(res => res.json());
     var list = document.getElementById("list");
 
-    if(list.children.length!=0){
+    if (list.children.length != 0) {
         list.innerHTML = '';
     }
-    if(ok.data.length!=0){
+    if (ok.data.length != 0) {
         for (var i = 0; i < (ok.data.length); i++) {
             let element = document.createElement("li");
             element.id = `element${i}`
             let name = document.createElement("p");
-            name.id=`name${i}`
+            name.id = `name${i}`
             let nameAux = document.createTextNode(`${ok.data[i].email}`);
             name.appendChild(nameAux);
             let select = document.createElement("select");
-            select.id=`select${i}`
+            select.id = `select${i}`
             let optionYes = document.createElement("option");
-            optionYes.value=true;
+            optionYes.value = true;
             let optionYesAux = document.createTextNode("asistio");
             optionYes.appendChild(optionYesAux);
             let optionNo = document.createElement("option");
-            optionNo.value=false;
+            optionNo.value = false;
             let optionNoAux = document.createTextNode("no asistio");
             optionNo.appendChild(optionNoAux);
             select.appendChild(optionYes);
@@ -313,58 +313,58 @@ async function searchUsers() {
             element.appendChild(name);
             element.appendChild(select);
             list.appendChild(element);
-            
-    
+
+
         }
 
     }
 }
 
-async function sendAsist(){
+async function sendAsist() {
     var list = document.getElementById("list");
     console.log(list.children.length);
-    if(list.children.length!=0){
-        for (var i = 0; i < (list.children.length); i++){
+    if (list.children.length != 0) {
+        for (var i = 0; i < (list.children.length); i++) {
             let select = document.getElementById(`select${i}`);
-            
-                let name = document.getElementById(`name${i}`).innerHTML;
-                console.log(name);
-                let type = document.getElementById("selectedVaccine").value;
-                console.log(type)
-                let asist = document.getElementById(`select${i}`).value;
-                console.log(asist)
-                if(asist =="true"){
-                    asist = true;
-                }else{
-                    asist = false;
-                }
-                let data = {"type":type,"email":name,"asist":asist};
-                let ok = await fetch(`http://localhost:3000/users/vacunador/updateTurn`, {
-                    method: 'POST', // or 'PUT'
-                    body: JSON.stringify(data), // data can be `string` or {object}!
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res => res.json());
-                
-                
-            
 
-            
-            
-            
+            let name = document.getElementById(`name${i}`).innerHTML;
+            console.log(name);
+            let type = document.getElementById("selectedVaccine").value;
+            console.log(type)
+            let asist = document.getElementById(`select${i}`).value;
+            console.log(asist)
+            if (asist == "true") {
+                asist = true;
+            } else {
+                asist = false;
+            }
+            let data = { "type": type, "email": name, "asist": asist };
+            let ok = await fetch(`http://localhost:3000/users/vacunador/updateTurn`, {
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(data), // data can be `string` or {object}!
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => res.json());
+
+
+
+
+
+
+
         }
         window.alert("turnos actualizados correctamente")
         await searchUsers()
     }
 }
 
-async function darVacuna(bot){
+async function darVacuna(bot) {
     var date = new Date();
-    
+
     console.log(bot);
-    var data = {"type": bot.id, "date":date}
+    var data = { "type": bot.id, "date": date }
     var email = document.getElementById("email").innerHTML;
     let ok = await fetch(`http://localhost:3000/users/vacunador/assignVaccine/${email}`, {
         method: 'POST', // or 'PUT'
@@ -373,6 +373,41 @@ async function darVacuna(bot){
             'Content-Type': 'application/json'
         }
     })
-    .then(res => res.json());
+        .then(res => res.json());
     window.location.href = "http://localhost:3000/users/vacunador/assignVaccineVacunador";
+}
+
+
+
+async function assignDate() {
+    var elements = document.getElementsByClassName("inputUsers");
+    const date = document.getElementById("dateAssigned");
+    const vaccine = document.getElementById("vacuna").value;
+    var names = [];
+    for (var i = 0; i < elements.length; i++) {
+        console.log(elements[i].checked)
+        if (elements[i].checked) {
+            names.push(elements[i].id)
+        }
+    }
+    console.log(date.value);
+    console.log(names);
+    const data = { email: names, date: date.value, vaccine: vaccine };
+    console.log(data);
+    try {
+        let ok = await fetch(`http://localhost:3000/users/admin/modificar-cliente`, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(data), // data can be `string` or {object}!
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.json());
+        console.log(ok);
+        window.location.href = "http://localhost:3000/users/admin/homeAdmin"
+    } catch (error) {
+        console.log(error);
+    }
+
+
 }

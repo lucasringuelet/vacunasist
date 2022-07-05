@@ -73,12 +73,34 @@ router.get("/darVacunasVacunador/:email", auth,async (req,res) =>{
     if(age>18){
         var covid = vaccines.filter(element => element.type =="covid");
         if(covid.length < 2 ){
-            aux2.push("covid");
+            if(covid.length == 1){
+                var lastVaccineCovid = covid[0].date;
+                let today = new Date();
+                var diff = today.getTime() - lastVaccineCovid.getTime();
+                var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                console.log("los dias son",days);
+                if(days>90){
+                    aux2.push("covid");
+                }
+            }else{
+                aux2.push("covid"); 
+            }
+
+            
         }
     }
-    var gripe = vaccines.filter(element => element.type =="gripe");
+    var gripe = vaccines.filter(element => element.type === "gripe" && element.date != undefined);
     if(gripe.length<1){
+
         aux2.push("gripe");
+    }else{
+        var arrayDateOfVaccines = gripe.map((element) => element.date);
+        var dateMax = new Date(Math.max.apply(null, arrayDateOfVaccines));
+        let diff = today.getTime() - dateMax.getTime();
+        let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        if(days>=365){
+            aux2.push("gripe");
+        }
     }
     if(age<60){
         var fiebre = vaccines.filter(element => element.type =="fiebre");
@@ -128,6 +150,33 @@ router.post("/updateTurn",auth,async(req,res)=>{
         const userupdated = await userSearch[0].save();
         
         await Turn.deleteOne({"userId":userSearch[0]._id,"vaccine":type,"date":date});
+
+        if(type == "covid"){
+            var arrayVaccination = await Vaccine.find({ _id: userSearch[0].vaccinations });
+            var covid = (arrayVaccination.filter(element => element.type === "covid"));
+            if(covid.length<2){
+                let today = new Date();
+                let date = new Date(today.getTime()+ 7889250000 );
+                var userId = userSearch[0]._id;
+                let vaccine = type;
+                var state = true;
+                var vaccination = userSearch[0].vaccination;
+                var turn = new Turn({ userId, vaccine, date, state, vaccination });
+                await turn.save();
+            }
+        }else{
+            if(type == "gripe"){
+                let today = new Date();
+                let date = new Date(today.getTime()+ 31557600000 );
+                var userId = userSearch[0]._id;
+                let vaccine = type;
+                var state = true;
+                var vaccination = userSearch[0].vaccination;
+                var turn = new Turn({ userId, vaccine, date, state, vaccination });
+                await turn.save();
+            }
+        }
+
         res.json({ success: true, data: 'the vaccine was assigned' });
     }else{
         const userSearch = await User.find({email:email})
@@ -141,7 +190,8 @@ router.post("/updateTurn",auth,async(req,res)=>{
 //asignar vacunas a un paciente
 router.post("/assignVaccine/:email", async(req, res) => {
     const { type, date} = req.body;
-
+    var user = await User.find({email : req.params.email} ) ;
+    await Turn.deleteOne({"userId":user[0]._id,"vaccine":type});
     var userAux = await User.find({_id : req.session.userId} ) ;
     var vaccination = userAux[0].vaccination;
     const vaccine = new Vaccine({ type, date, vaccination });

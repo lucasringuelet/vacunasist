@@ -1,0 +1,42 @@
+<nav class="nav nav-pills nav-fill nav-aux">
+    <a class="nav-link active" aria-current="page" href="/users/admin/homeAdmin">Asignar Turnos</a>
+    <a class="nav-link" href="/users/admin/infoAdminVaccine">Informacion por Vacunas</a>
+    <a class="nav-link" href="/users/admin/infoPatient">Informacion Pacientes</a>
+    <a class="nav-link" href="/users/admin/modifyDataCenterAdmin">Modificar datos centros</a>
+    <a class="nav-link" href="/logout">Cerrar Sesion</a>
+</nav>
+
+<div class="card">
+    <div class="card-body">
+        <form action="/users/admin/searchUserDate">
+            <label>Vacuna:</label><br>
+            <select id="vacuna" name="vacuna">
+                <option value="covid">Covid</option>
+                <option value="fiebre">fiebre</option>
+            </select>
+            <input type="submit" value="Save" class="btn btn-secondary">
+        </form>
+        {{#if users }}
+        <p class="card-text">Ingresar fecha a asignar </p>
+        <input type="date" id="dateAssigned">
+        <div class="scrollable">
+            <table id="tabla" style="height: 50vh;">
+                {{#each users}}
+                <tbody>
+                    <tr>
+                        <td class="card-text">{{{this}}}</td>
+                        <td>
+                            <input type="checkbox" class="inputUsers" id="{{{this}}}">
+                        </td>
+                    </tr>
+                </tbody>
+                {{/each}}
+
+            </table>
+        </div>
+
+        <button onclick="assignDate()">Enviar</button>
+        {{/if}}
+
+    </div>
+</div>

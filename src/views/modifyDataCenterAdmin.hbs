@@ -1,0 +1,44 @@
+<nav class="nav nav-pills nav-fill nav-aux">
+    <a class="nav-link active" aria-current="page" href="/users/admin/homeAdmin">Asignar Turnos</a>
+    <a class="nav-link" href="/users/admin/infoAdminVaccine">Informacion por Vacunas</a>
+    <a class="nav-link" href="/users/admin/infoPatient">Informacion Pacientes</a>
+    <a class="nav-link" href="/users/admin/modifyDataCenterAdmin">Modificar datos centros</a>
+    <a class="nav-link" href="/logout">Cerrar Sesion</a>
+</nav>
+
+
+
+<div class="card" style="width: 18rem;">
+
+    <div class="card-body">
+        <h5 class="card-title">Editar direccion de Vacunatorio</h5>
+        <p class="card-text">Ingresar Vacunatorio</p>
+        <form id="myForm" action="/users/admin/searchCenter">
+            <label>Vacunatorio:</label><br>
+            <select id="vaccination" name="vaccination">
+                <option value="municipalidad">municipalidad</option>
+                <option value="cementerio">cementerio</option>
+                <option value="terminal omnibus">terminal de omnibus</option>
+            </select>
+            <input type="submit" value="Buscar" class="btn btn-secondary">
+        </form>
+    </div>
+</div>
+
+
+
+{{#if info }}
+<div class="card" style="width: 18rem;">
+
+    <div class="card-body">
+        <h5 class="card-title">{{{info.name}}}</h5>
+        <p class="card-text">{{{info.adress}}}</p>
+        <form id="myForm" action="/users/admin/modifyDataCenter">
+            <label for="adress">Email</label><br>
+            <input id="adress" type="text" name="adress" required><br>
+            <br>
+            <input type="submit" value="Save" class="btn btn-secondary">
+        </form>
+    </div>
+</div>
+{{/if}}

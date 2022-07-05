@@ -8,7 +8,7 @@ const session = require("express-session");
 
 
 // Authentication and Authorization Middleware
-var auth = function(req, res, next) {
+var auth = function (req, res, next) {
     if (req.session && req.session.userId)
         return next();
     else
@@ -16,7 +16,7 @@ var auth = function(req, res, next) {
 };
 
 //login
-router.post("/login", async(req, res) => {
+router.post("/login", async (req, res) => {
     const userExist = await User.find({ email: `${req.body.email}` });
 
     console.log(userExist);
@@ -43,7 +43,7 @@ router.post("/login", async(req, res) => {
 
 
 //register
-router.post("/register", async(req, res) => {
+router.post("/register", async (req, res) => {
     const userExist = await User.find({ email: `${req.body.email}` }); //veo que el usuario no exista
     if (!userExist.length) {
 
@@ -75,7 +75,7 @@ router.post("/register", async(req, res) => {
 });
 
 //modificar centro de vacunacion
-router.post("/updateVaccination/:id", async(req, res) => {
+router.post("/updateVaccination/:id", async (req, res) => {
     const { vaccination } = req.body;
     await User.findByIdAndUpdate(req.params.id, vaccination);
     res.json({ success: true, data: "vaccination updated" });
@@ -83,7 +83,7 @@ router.post("/updateVaccination/:id", async(req, res) => {
 })
 
 //asignar vacunas a un paciente
-router.post("/assignVaccine/:id", async(req, res) => {
+router.post("/assignVaccine/:id", async (req, res) => {
     const { type, date, vaccination } = req.body;
 
     const vaccine = new Vaccine({ type, date, vaccination });
@@ -98,7 +98,7 @@ router.post("/assignVaccine/:id", async(req, res) => {
 //asignar turno covid(primero se cargaria la parte de las vacunas que tiene, 
 //luego una vez ejecutado el assignVaccine para todas las vacunas que tiene, 
 //ejecutariamos este assignTurn que verificaria si hay que asignarle o no turno de en este caso covid).
-router.post("/assignTurnCovid/:id", async(req, res) => {
+router.post("/assignTurnCovid/:id", async (req, res) => {
     const vaccine = "covid";
     const userSearch = await User.find({ _id: `${req.params.id}` })
     const user = userSearch[0];
@@ -113,18 +113,18 @@ router.post("/assignTurnCovid/:id", async(req, res) => {
 
     var arrayVaccination = await Vaccine.find({ _id: user.vaccinations });
     var amountVaccine = (arrayVaccination.filter(element => element.type === "covid").length);
-    console.log(amountVaccine,"hola");
+    console.log(amountVaccine, "hola");
     if (amountVaccine >= 2) {
         res.json({ success: false, error: "user have 2 vaccine of covid" });
-        console.log(amountVaccine,"hola1");
+        console.log(amountVaccine, "hola1");
     } else {
         if (age < 18) {
             res.json({ success: false, error: "user smaller than 18" });
-            console.log(amountVaccine,"hola2");
+            console.log(amountVaccine, "hola2");
         } else {
-            
+
             if (age > 60 || user.risk == true) {
-                console.log(amountVaccine,"hola3");
+                console.log(amountVaccine, "hola3");
                 if (amountVaccine == 1) {
                     var lastVaccine = (arrayVaccination.filter(element => element.type === "covid"));
                     let date = new Date((lastVaccine[0].date.getTime() + treeMonths));
@@ -135,7 +135,7 @@ router.post("/assignTurnCovid/:id", async(req, res) => {
                         var state = true;
                         var vaccination = user.vaccination;
                         console.log(`pasamos por aca y fecha es: ${date}`)
-                        const turn = new Turn({ userId, vaccine, date, state, vaccination});
+                        const turn = new Turn({ userId, vaccine, date, state, vaccination });
                         await turn.save();
                         res.json({ success: true, data: date });
                     } else {
@@ -165,7 +165,7 @@ router.post("/assignTurnCovid/:id", async(req, res) => {
                 var vaccination = user.vaccination;
                 const turn = new Turn({ userId, vaccine, state, vaccination });
                 var ok = await turn.save();
-                console.log(amountVaccine,"hola4");
+                console.log(amountVaccine, "hola4");
                 res.json({ success: true, data: "turn pennding to assinament" });
             }
         }
@@ -176,7 +176,7 @@ router.post("/assignTurnCovid/:id", async(req, res) => {
 })
 
 //asignar turno gripe 
-router.post("/assignTurnGripe/:id", async(req, res) => {
+router.post("/assignTurnGripe/:id", async (req, res) => {
     const vaccine = "gripe";
     const userSearch = await User.find({ _id: `${req.params.id}` })
     const user = userSearch[0];
@@ -214,7 +214,7 @@ router.post("/assignTurnGripe/:id", async(req, res) => {
                 var userId = user._id;
                 var state = true;
                 var vaccination = user.vaccination;
-                const turn = new Turn({ userId, vaccine, date, state,vaccination });
+                const turn = new Turn({ userId, vaccine, date, state, vaccination });
                 await turn.save();
                 res.json({ success: true, data: date });
             }
@@ -225,7 +225,7 @@ router.post("/assignTurnGripe/:id", async(req, res) => {
 
 })
 
-router.get("/assignTurnFiebre", async(req, res) => {
+router.get("/assignTurnFiebre", async (req, res) => {
     const vaccine = "fiebre";
     const userSearch = await User.find({ _id: `${req.session.userId}` })
     const turnSearch = await Turn.find({ userId: `${req.session.userId}` })
@@ -268,10 +268,11 @@ router.get("/assignTurnFiebre", async(req, res) => {
 
 })
 
-router.get('/userInformation', auth, async(req, res) => {
+router.get('/userInformation', auth, async (req, res) => {
     const user = await User.find({ _id: req.session.userId });
     const vaccines = await Vaccine.find({ _id: user[0].vaccinations })
     const turns = await Turn.find({ userId: user[0]._id })
+    console.log(turns);
     const infoVaccines = vaccines.map(item => {
         const container = {};
         container["type"] = item.type;
@@ -281,18 +282,18 @@ router.get('/userInformation', auth, async(req, res) => {
     const infoTurns = turns.map(item => {
         const container = {};
         container["vaccine"] = item.vaccine;
-        if(!item.date){
+        if (!item.date) {
             container["date"] = "Date pending";
-        }else{
-            let date = new Date();
-            if(item.date.getTime()<date.getTime()){
+        } else {
+            let date = new Date("2022-07-7T03:00:00.000+00:00");
+            if (item.date.getTime() < date.getTime()) {
                 container["date"] = "Absent";
-            }else{
+            } else {
                 container["date"] = item.date;
             }
-            
+
         }
-        
+
         return container
     })
 
@@ -302,34 +303,34 @@ router.get('/userInformation', auth, async(req, res) => {
 })
 
 //vacunas dadas
-router.get("/vaccines/:id", async(req, res) => {
+router.get("/vaccines/:id", async (req, res) => {
     const user = await User.find({ _id: req.params.id });
     const vaccines = await Vaccine.find({ _id: user[0].vaccinations })
     res.json(vaccines);
 });
 
 //turnos del usuario
-router.get("/turn/:id", async(req, res) => {
+router.get("/turn/:id", async (req, res) => {
     const user = await User.find({ _id: req.params.id });
     const turns = await Turn.find({ userId: user[0]._id })
     res.json({ success: true, data: turns });
 })
 
 //modify data
-router.get('/modifyData', auth, async(req, res) => {
+router.get('/modifyData', auth, async (req, res) => {
     const user = await User.find({ _id: req.session.userId });
     const userCenter = user[0].vaccination;
 
     res.render('modifyData', { userCenter });
 })
-router.post('/changeCenter', auth, async(req, res) => {
+router.post('/changeCenter', auth, async (req, res) => {
     console.log(req.body.data);
     var response = User.findOneAndUpdate({ _id: req.session.userId }, {
-            $set: {
-                "vaccination": req.body.data,
-            }
-        },
-        function(error, result) {
+        $set: {
+            "vaccination": req.body.data,
+        }
+    },
+        function (error, result) {
             if (error) {
                 console.log(error);
             } else {

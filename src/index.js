@@ -59,9 +59,13 @@ app.get("/user", auth, (req, res) => {
     var userId = req.session.userId;
     res.render('user', { userId });
 })
+app.get("/loginAdmin", (req, res) => {
+    res.render('loginAdmin')
+})
 
 app.use('/users/patient', require('../src/routes/users.routes'));
 app.use('/users/vacunador',require('../src/routes/vacunador.routes'));
+app.use('/users/admin',require('../src/routes/admin.routes'));
 app.get('/userTurn', auth, (req, res) => {
     res.render('userTurn');
 })
